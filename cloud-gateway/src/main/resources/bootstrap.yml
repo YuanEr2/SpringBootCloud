@@ -1,0 +1,56 @@
+# Tomcat
+server:
+  port: 18080
+# Spring
+spring:
+
+  main:
+    allow-circular-references: true
+    #允许Bean对象重名覆盖,报错注释
+    allow-bean-definition-overriding: true
+
+  application:
+    # 应用名称
+    name: cloud-gateway
+
+  profiles:
+    # 环境配置
+    active: dev
+
+  cloud:
+    nacos:
+      discovery:
+        # 服务注册地址
+        server-addr: 192.168.111.131:8848
+        #nacos命名空间 默认为:public
+        namespace: Cloud
+        #nacos 分组 默认为:DEFAULT_GROUP
+        #group: DEFAULT_GROUP
+
+      config:
+        # 配置中心地址
+        server-addr: 192.168.111.131:8848
+        # 配置文件格式
+        file-extension: yml
+        #nacos命名空间 默认为:public
+        namespace: Cloud
+        #nacos 分组 默认为:DEFAULT_GROUP
+        #group: DEFAULT_GROUP
+        # 共享配置
+        shared-configs:
+          - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+
+  rabbitmq:
+    host: 192.168.111.131
+    port: 5672
+    #开启发送端消息抵达Broker 确认
+    publisher-confirms: true
+    #开启发送端消息抵达Queue确认
+    publisher-returns: true
+    #只要消息抵达Queue，就会异步发送优先回调 returnfirm
+    template:
+      mandatory: true
+    listener:
+      simple:
+        #手动ack消息,不使用默认的消费端确认
+        acknowledge-mode: manual

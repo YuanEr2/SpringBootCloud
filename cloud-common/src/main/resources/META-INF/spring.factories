@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration = \
+  com.cloud.common.config.RedisConfig,\
+  com.cloud.common.config.BCryptPassWordEncoderConfig,\
+  com.cloud.common.config.GlobalExceptionHandler
